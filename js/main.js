@@ -11,7 +11,7 @@ function captureSearch(event) {
 
 const $movieList = document.querySelector('#render-list');
 
-// render list items of movies matching search term
+// render list items
 function renderMovies() {
   const $movieListItem = document.createElement('li');
   $movieListItem.setAttribute('class', 'column-full column-half no-wrap card');
@@ -22,7 +22,7 @@ function renderMovies() {
   $movieListItem.appendChild($moviePosterBox);
 
   const $movieTitleBox = document.createElement('div');
-  $movieTitleBox.setAttribute('class', 'column-half a center');
+  $movieTitleBox.setAttribute('class', 'column-half a-center');
   $movieListItem.appendChild($movieTitleBox);
 
   const $movieTitle = document.createElement('div');
