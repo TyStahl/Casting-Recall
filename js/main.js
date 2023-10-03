@@ -9,6 +9,13 @@ function captureSearch(event) {
   return term;
 }
 
+// function renderxhrTerm(string) {
+//   const uriURL = 'https://lfz-cors.herokuapp.com/?url=';
+//   const targetURL = `https://api.themoviedb.org/3/search/movie?${placeholder}?include_adult=false&language=en-US&page=1`;
+//   const array = string.split('');
+
+// }
+
 const $movieList = document.querySelector('#render-list');
 
 // render list items
