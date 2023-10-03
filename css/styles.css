@@ -12,14 +12,37 @@ body {
   background-color: rgb(82, 109, 130);
 }
 
+.ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.no-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.poster {
+  width: 33%;
+}
+
+img {
+  width: 100%;
+}
+
 .input {
   width: 100%;
   margin-top: 1rem;
 }
 
 .header {
-  display: flex;
   background-color: rgb(39, 55, 77);
+}
+
+.a-center {
+  display: flex;
+  align-items: center;
 }
 
 .j-end {
@@ -41,7 +64,10 @@ body {
 }
 
 .row {
-  display: flex;
-  height: fit-content;
   width: 100%;
+}
+
+.card {
+  background-color: rgb(39, 55, 77);
+  margin: 0.25rem 0;
 }

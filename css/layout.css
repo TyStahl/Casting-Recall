@@ -19,7 +19,11 @@
 
 .column-full,
 .column-half {
-  width: 100%;
+  width: 99%;
+}
+
+.ul {
+  justify-content: center;
 }
 
 @media screen and (min-width: 768px) {
@@ -27,12 +31,11 @@
     max-width: 900px;
   }
 
-  .column-full,
   .column-half {
-    padding: 0 0.75rem;
+    width: 49.5%;
   }
 
-  .column-half {
-    width: 50%;
+  .ul {
+    justify-content: space-between;
   }
 }
