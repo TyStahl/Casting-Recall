@@ -21,7 +21,7 @@ function captureSearch(event) {
 // render list items
 function renderMovies(renderData) {
   const $movieListItem = document.createElement('li');
-  $movieListItem.setAttribute('class', 'column-full column-half no-wrap card');
+  $movieListItem.setAttribute('class', 'column-full column-half j-b no-wrap card');
   $movieListItem.setAttribute('id', renderData.id);
   $renderList.appendChild($movieListItem);
 
@@ -32,6 +32,15 @@ function renderMovies(renderData) {
   const $movieTitleBox = document.createElement('div');
   $movieTitleBox.setAttribute('class', 'column-half a-center j-center');
   $movieListItem.appendChild($movieTitleBox);
+
+  const $editBox = document.createElement('div');
+  $editBox.setAttribute('class', 'a-center');
+  $movieListItem.appendChild($editBox);
+
+  const $recycleIcon = document.createElement('i');
+  $recycleIcon.setAttribute('class', 'fa-solid fa-magnifying-glass w-t');
+  $recycleIcon.setAttribute('id', 'look');
+  $editBox.appendChild($recycleIcon);
 
   const $movieTitle = document.createElement('div');
   $movieTitle.setAttribute('class', 'w-t');
@@ -47,18 +56,15 @@ function renderMovies(renderData) {
   $moviePosterBox.appendChild($moviePoster);
   $renderList.appendChild($movieListItem);
 }
-let movieId;
+
 $renderList.addEventListener('click', showCast);
 function showCast(event) {
-  // console.log('running');
-  if (event.target.tagName === 'LI') {
+  if (event.target.tagName === 'I') {
     const closestElement = event.target.closest('li');
-    movieId = closestElement.getAttribute('id');
+    let movieId = closestElement.getAttribute('id');
     movieId.toString();
     movieId = castURIComponent(movieId);
-    for (let i = 0; i < $renderList.length; i++) {
-      $renderList.removeChild();
-    }
+    $renderList.textContent = '';
     castById(movieId);
   }
 }
@@ -94,6 +100,7 @@ function renderCast(renderData) {
   );
   $castProfile.setAttribute('alt', 'poster');
   $castProfileBox.appendChild($castProfile);
+
   $renderList.appendChild($castListItem);
 }
 
@@ -101,8 +108,9 @@ function castURIComponent(string) {
   const uri = 'https://lfz-cors.herokuapp.com/?url=';
   const targetURL =
     uri +
-    `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`;
+    `https://api.themoviedb.org/3/movie/${string}/credits?language=en-US`;
   return targetURL;
+
 }
 
 function castById(string) {
@@ -115,8 +123,9 @@ function castById(string) {
   );
   xhr.addEventListener('load', function () {
     const response = xhr.response;
-    data.cast = response.results;
+    data.cast = response.cast;
     for (let i = 0; i < data.cast.length; i++) {
+
       const renderData = {
         id: data.cast[i].id,
         name: data.cast[i].name,
@@ -124,8 +133,8 @@ function castById(string) {
         profileUrl: data.cast[i].profile_path
       };
       renderCast(renderData);
-      viewSwap('cast');
     }
+    viewSwap('cast');
   });
   xhr.send();
 }
@@ -156,8 +165,8 @@ function movieByTitle(string) {
         posterUrl: data.movies[i].poster_path
       };
       renderMovies(renderData);
-      // viewSwap('landing');
     }
+    viewSwap('landing');
   });
   xhr.send();
 }
