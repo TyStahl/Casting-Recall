@@ -32,6 +32,7 @@ function renderMovies(renderData) {
   $movieListItem.appendChild($movieTitleBox);
 
   const $movieTitle = document.createElement('div');
+  $movieTitle.setAttribute('class', 'title');
   $movieTitle.textContent = renderData.title;
   $movieTitleBox.appendChild($movieTitle);
 
