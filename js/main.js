@@ -39,6 +39,7 @@ function renderMovies(renderData) {
     'src',
     `http://image.tmdb.org/t/p/original${renderData.posterUrl}`
   );
+  $moviePoster.setAttribute('alt', renderData.title);
   $moviePosterBox.appendChild($moviePoster);
 
   $movieList.appendChild($movieListItem);
