@@ -1,1 +1,4 @@
-/* exported data */
+/* exported movieData */
+const movieData = {
+  movies: []
+};
