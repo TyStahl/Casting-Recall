@@ -39,7 +39,7 @@ function renderMovies(renderData) {
   const $moviePoster = document.createElement('img');
   $moviePoster.setAttribute(
     'src',
-    `http://image.tmdb.org/t/p/original${renderData.posterUrl}`
+    `https://image.tmdb.org/t/p/original${renderData.posterUrl}`
   );
   $moviePoster.setAttribute('alt', renderData.title);
   $moviePosterBox.appendChild($moviePoster);

@@ -1,4 +1,5 @@
 /* exported movieData */
 const movieData = {
-  movies: []
+  movies: [],
+  people: []
 };
