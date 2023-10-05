@@ -10,9 +10,26 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="header">
+    <div class="row j-end">
+      <h1>CASTING RECALL</h1>
+    </div>
   </header>
-  <main>
+  <main class="container">
+    <div class="row j-start">
+      <div class="a-center column-full">
+        <form id="film-search" class="row">
+          <input class="input" id="film-search-input" type="text" placeholder="Search for a film to recast the characters!" required>
+        </form>
+      </div>
+    </div>
+    <div class="row j-center">
+      <h5>Search for a film to recast the characters!</h5>
+    </div>
+    <div>
+      <ul class="ul column-full" id="render-list">
+      </ul>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
