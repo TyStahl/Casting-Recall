@@ -65,7 +65,7 @@ function movieByTitle(string) {
   xhr.addEventListener('load', function () {
     const response = xhr.response;
     movieData.movies = response.results;
-    for (let i = 0; i <= movieData.movies.length; i++) {
+    for (let i = 0; i < movieData.movies.length; i++) {
       const renderData = {
         id: movieData.movies[i].id,
         title: movieData.movies[i].original_title,
