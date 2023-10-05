@@ -1,5 +1,7 @@
-/* exported movieData */
-const movieData = {
+/* exported data */
+const data = {
+  view: 'landing',
   movies: [],
+  cast: [],
   people: []
 };
