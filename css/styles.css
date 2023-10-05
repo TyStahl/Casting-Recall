@@ -31,6 +31,10 @@ img {
   width: 100%;
 }
 
+.title {
+  color: white;
+}
+
 .input {
   width: 100%;
   margin-top: 1rem;
@@ -42,6 +46,7 @@ img {
 
 .a-center {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
