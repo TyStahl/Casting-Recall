@@ -4,9 +4,10 @@ const $submit = document.querySelector('#film-search');
 const $searchTerm = document.querySelector('#film-search-input');
 
 $submit.addEventListener('submit', captureSearch);
-let term = '';
+
 function captureSearch(event) {
   event.preventDefault();
+  let term = '';
   $movieList.textContent = '';
   term = replaceSpaces($searchTerm.value);
   const searchURL = encodeURIComponent(term);
