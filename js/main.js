@@ -37,12 +37,12 @@ function renderMovies(renderData) {
   $editBox.setAttribute('class', 'a-center');
   $movieListItem.appendChild($editBox);
 
-  const $recycleIcon = document.createElement('i');
-  $recycleIcon.setAttribute('class', 'fa-solid fa-magnifying-glass w-t');
-  $recycleIcon.setAttribute('id', 'look');
-  $editBox.appendChild($recycleIcon);
+  const $lookIcon = document.createElement('i');
+  $lookIcon.setAttribute('class', 'fa-solid fa-magnifying-glass w-t');
+  $lookIcon.setAttribute('id', 'look');
+  $editBox.appendChild($lookIcon);
 
-  const $movieTitle = document.createElement('div');
+  const $movieTitle = document.createElement('h5');
   $movieTitle.setAttribute('class', 'w-t');
   $movieTitle.textContent = renderData.title;
   $movieTitleBox.appendChild($movieTitle);
@@ -71,7 +71,7 @@ function showCast(event) {
 
 function renderCast(renderData) {
   const $castListItem = document.createElement('li');
-  $castListItem.setAttribute('class', 'column-full column-half no-wrap card');
+  $castListItem.setAttribute('class', 'j-b no-wrap card');
   $castListItem.setAttribute('id', renderData.id);
   $renderList.appendChild($castListItem);
 
@@ -79,19 +79,32 @@ function renderCast(renderData) {
   $castProfileBox.setAttribute('class', 'poster a-center');
   $castListItem.appendChild($castProfileBox);
 
+  const $castInfoDiv = document.createElement('div');
+  $castInfoDiv.setAttribute('class', 'wrap a-center');
+  $castListItem.appendChild($castInfoDiv);
+
+  const $castEditDiv = document.createElement('div');
+  $castEditDiv.setAttribute('class', 'a-center');
+  $castListItem.appendChild($castEditDiv);
+
+  const $recycleIcon = document.createElement('i');
+  $recycleIcon.setAttribute('class', 'fa-solid fa-recycle w-t');
+  $recycleIcon.setAttribute('id', 'recycle');
+  $castEditDiv.appendChild($recycleIcon);
+
   const $castTitleBox = document.createElement('div');
-  $castTitleBox.setAttribute('class', 'column-half a-center j-center');
-  $castListItem.appendChild($castTitleBox);
+  $castTitleBox.setAttribute('class', 'a-center j-center wrap');
+  $castInfoDiv.appendChild($castTitleBox);
 
-  const $castName = document.createElement('div');
-  $castName.setAttribute('class', 'w-t');
-  $castName.textContent = renderData.name;
-  $castTitleBox.appendChild($castName);
-
-  const $castCharacter = document.createElement('div');
+  const $castCharacter = document.createElement('p');
   $castCharacter.setAttribute('class', 'w-t');
   $castCharacter.textContent = renderData.character;
   $castTitleBox.appendChild($castCharacter);
+
+  const $castName = document.createElement('p');
+  $castName.setAttribute('class', 'w-t');
+  $castName.textContent = renderData.name;
+  $castTitleBox.appendChild($castName);
 
   const $castProfile = document.createElement('img');
   $castProfile.setAttribute(

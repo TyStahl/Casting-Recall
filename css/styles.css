@@ -3,9 +3,15 @@ h1 {
   margin-right: 2rem;
 }
 
+p {
+  text-align: left;
+  width: 100%;
+}
+
 h5 {
   color: white;
-  text-align: center;
+  text-align: left;
+  width: 100%;
 }
 
 body {
@@ -16,6 +22,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
+}
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .no-wrap {
@@ -73,6 +84,7 @@ img {
 
 .row {
   width: 100%;
+  flex-direction: row;
 }
 
 .card {
