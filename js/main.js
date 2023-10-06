@@ -331,10 +331,11 @@ function renderPeople(renderData) {
   $peopleEditDiv.setAttribute('class', 'a-center');
   $peopleListITem.appendChild($peopleEditDiv);
 
-  const $recycleIcon = document.createElement('i');
-  $recycleIcon.setAttribute('class', 'fa-solid fa-recycle fa-2xl w-t');
-  $recycleIcon.setAttribute('id', 'recycle');
-  $peopleEditDiv.appendChild($recycleIcon);
+  const $selectIcon = document.createElement('a');
+  $selectIcon.textContent = 'select';
+  $selectIcon.setAttribute('class', 'w-t');
+  $selectIcon.setAttribute('id', 'select');
+  $peopleEditDiv.appendChild($selectIcon);
 
   const $peopleTitleBox = document.createElement('div');
   $peopleTitleBox.setAttribute('class', 'a-center j-center wrap');
