@@ -216,12 +216,33 @@ function renderCast(renderData) {
 
 // start of people functions
 
+// click listener to move to people search page to swap actors
+$renderCastList.addEventListener('click', showPeople);
+function showPeople(event) {
+  if (event.target.tagName === 'I') {
+    const closestElement = event.target.closest('li');
+    const $actorToSwapId = closestElement.getAttribute('id');
+    const $castMembers = document.querySelectorAll('li');
+    for (let i = 0; i < $castMembers.length; i++) {
+      const $castmemberID = $castMembers[i].getAttribute('id');
+      if ($castmemberID !== $actorToSwapId) {
+        $renderCastList.removeChild($castMembers[i]);
+      }
+    }
+  }
+}
+
+// let movieId = closestElement.getAttribute('id');
+// movieId.toString();
+// movieId = castURIComponent(movieId);
+// $renderMovieList.textContent = '';
+// castById(movieId);
+
 $submitPeople.addEventListener('submit', capturePeopleSearch);
 function capturePeopleSearch(event) {
   event.preventDefault();
   let peopleTerm = '';
   $renderMovieList.textContent = '';
-  $renderCastList.textContent = '';
   $renderPeopleList.textContent = '';
   peopleTerm = replaceSpaces($peopleSearchInput.value);
 
@@ -248,6 +269,7 @@ function peopleByName(string) {
         knownFor: data.people[i].known_for
       };
       renderPeople(renderData);
+
     }
     viewSwap('people');
   });
@@ -262,7 +284,7 @@ function peopleNameURIComponent(string) {
   return targetURL;
 }
 
-// function castById(string) {
+// function peopleById(string) {
 //   const xhr = new XMLHttpRequest();
 //   xhr.open('GET', string);
 //   xhr.responseType = 'json';
