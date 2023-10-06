@@ -2,7 +2,8 @@
 
 const $submit = document.querySelector('#film-search');
 const $searchTerm = document.querySelector('#film-search-input');
-const $renderList = document.querySelector('#render-list');
+const $renderMovieList = document.querySelector('#render-movie-list');
+const $renderCastList = document.querySelector('#render-cast-list');
 const $landingPage = document.querySelector("[data-view='landing']");
 const $searchPage = document.querySelector("[data-view='search']");
 const $castPage = document.querySelector("[data-view='cast']");
@@ -12,7 +13,7 @@ $submit.addEventListener('submit', captureSearch);
 function captureSearch(event) {
   event.preventDefault();
   let term = '';
-  $renderList.textContent = '';
+  $renderMovieList.textContent = '';
   term = replaceSpaces($searchTerm.value);
   const searchURL = movieURIComponent(term);
   movieByTitle(searchURL);
@@ -23,7 +24,7 @@ function renderMovies(renderData) {
   const $movieListItem = document.createElement('li');
   $movieListItem.setAttribute('class', 'column-full column-half j-b no-wrap card');
   $movieListItem.setAttribute('id', renderData.id);
-  $renderList.appendChild($movieListItem);
+  $renderMovieList.appendChild($movieListItem);
 
   const $moviePosterBox = document.createElement('div');
   $moviePosterBox.setAttribute('class', 'poster a-center');
@@ -54,26 +55,26 @@ function renderMovies(renderData) {
   );
   $moviePoster.setAttribute('alt', 'poster');
   $moviePosterBox.appendChild($moviePoster);
-  $renderList.appendChild($movieListItem);
+  $renderMovieList.appendChild($movieListItem);
 }
 
-$renderList.addEventListener('click', showCast);
+$renderMovieList.addEventListener('click', showCast);
 function showCast(event) {
   if (event.target.tagName === 'I') {
     const closestElement = event.target.closest('li');
     let movieId = closestElement.getAttribute('id');
     movieId.toString();
     movieId = castURIComponent(movieId);
-    $renderList.textContent = '';
+    $renderMovieList.textContent = '';
     castById(movieId);
   }
 }
 
 function renderCast(renderData) {
   const $castListItem = document.createElement('li');
-  $castListItem.setAttribute('class', 'j-b no-wrap card');
+  $castListItem.setAttribute('class', 'column-full column-half j-b no-wrap card');
   $castListItem.setAttribute('id', renderData.id);
-  $renderList.appendChild($castListItem);
+  $renderCastList.appendChild($castListItem);
 
   const $castProfileBox = document.createElement('div');
   $castProfileBox.setAttribute('class', 'poster a-center');
@@ -114,7 +115,7 @@ function renderCast(renderData) {
   $castProfile.setAttribute('alt', 'poster');
   $castProfileBox.appendChild($castProfile);
 
-  $renderList.appendChild($castListItem);
+  $renderCastList.appendChild($castListItem);
 }
 
 function castURIComponent(string) {
@@ -138,7 +139,6 @@ function castById(string) {
     const response = xhr.response;
     data.cast = response.cast;
     for (let i = 0; i < data.cast.length; i++) {
-
       const renderData = {
         id: data.cast[i].id,
         name: data.cast[i].name,
