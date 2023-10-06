@@ -106,8 +106,8 @@ function renderMovies(renderData) {
   $moviePosterBox.appendChild($moviePoster);
   $renderMovieList.appendChild($movieListItem);
 }
-// end of movie functions
 
+// end of movie functions
 // start of cast functions
 
 // click listener to show cast members of selected movie
@@ -219,7 +219,7 @@ function renderCast(renderData) {
 // click listener to move to people search page to swap actors
 $renderCastList.addEventListener('click', showPeople);
 function showPeople(event) {
-  if (event.target.tagName === 'I') {
+  if (data.view !== 'people' && event.target.tagName === 'I') {
     const closestElement = event.target.closest('li');
     const $actorToSwapId = closestElement.getAttribute('id');
     const $castMembers = document.querySelectorAll('li');
@@ -230,13 +230,37 @@ function showPeople(event) {
       }
     }
   }
+  viewSwap('people');
 }
 
-// let movieId = closestElement.getAttribute('id');
-// movieId.toString();
-// movieId = castURIComponent(movieId);
-// $renderMovieList.textContent = '';
-// castById(movieId);
+$renderPeopleList.addEventListener('click', replacePeople);
+function replacePeople(event) {
+  if (event.target.tagName === 'A') {
+    const $newCastMember = event.target.closest('li');
+    const $newCastMemberId = $newCastMember.getAttribute('id');
+    const $oldCastMember = document.querySelector('#render-cast-list li:nth-child(1)');
+    const $oldCastMemberId = $oldCastMember.getAttribute('id');
+    const oldCastMemberData = {};
+    let newCastMemberData = {};
+    for (let i = 0; i < data.people.length; i++) {
+      if (Number($newCastMemberId) === data.people[i].id) {
+        oldCastMemberData.id = data.people[i].id;
+        oldCastMemberData.name = data.people[i].name;
+        oldCastMemberData.profileUrl = data.people[i].profile_path;
+      }
+    }
+    newCastMemberData = oldCastMemberData;
+    for (let i = 0; i < data.cast.length; i++) {
+      if (Number($oldCastMemberId) === data.cast[i].id) {
+        newCastMemberData.character = data.cast[i].character;
+      }
+    }
+
+    $renderCastList.textContent = '';
+    $renderPeopleList.textContent = '';
+    renderCast(newCastMemberData);
+  }
+}
 
 $submitPeople.addEventListener('submit', capturePeopleSearch);
 function capturePeopleSearch(event) {
@@ -283,31 +307,6 @@ function peopleNameURIComponent(string) {
     `https://api.themoviedb.org/3/search/person?query=${string}&include_adult=false&language=en-US&page=1`;
   return targetURL;
 }
-
-// function peopleById(string) {
-//   const xhr = new XMLHttpRequest();
-//   xhr.open('GET', string);
-//   xhr.responseType = 'json';
-//   xhr.setRequestHeader(
-//     'Authorization',
-//     'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZmQwZGQ1MGI5MzViZjM3NzkyMWE3ZTA2OGFjY2VjNSIsInN1YiI6IjY1MTViNzcyZWE4NGM3MDBhZWU4ODI0NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1LFt7yZr-QHp66Wims95ri7xuVOFeHDZMj0tIYzLixY'
-//   );
-//   xhr.addEventListener('load', function () {
-//     const response = xhr.response;
-//     data.cast = response.cast;
-//     for (let i = 0; i < data.cast.length; i++) {
-//       const renderData = {
-//         id: data.cast[i].id,
-//         name: data.cast[i].name,
-//         character: data.cast[i].character,
-//         profileUrl: data.cast[i].profile_path
-//       };
-//       renderCast(renderData);
-//     }
-//     viewSwap('cast');
-//   });
-//   xhr.send();
-// }
 
 // render list items of actors
 function renderPeople(renderData) {
@@ -369,7 +368,7 @@ function renderPeople(renderData) {
 }
 
 // end of people functions
-
+const $peopleSearchDiv = document.querySelector('#people-search-div');
 // viewSwap function
 function viewSwap(viewname) {
   switch (viewname) {
@@ -379,6 +378,7 @@ function viewSwap(viewname) {
       $castPage.className = 'hidden';
       $peoplePage.className = 'hidden';
       $movieSearchInput.setAttribute('disabled');
+      $peopleSearchDiv.setAttribute('class', 'a-center column-full hidden');
       data.view = 'landing';
       break;
     case 'search':
@@ -387,6 +387,7 @@ function viewSwap(viewname) {
       $castPage.className = 'hidden';
       $peoplePage.className = 'hidden';
       $movieSearchInput.removeAttribute('disabled');
+      $peopleSearchDiv.setAttribute('class', 'a-center column-full hidden');
       data.view = 'search';
       break;
     case 'cast':
@@ -395,6 +396,7 @@ function viewSwap(viewname) {
       $castPage.className = '';
       $peoplePage.className = 'hidden';
       $movieSearchInput.setAttribute('disabled', 'true');
+      $peopleSearchDiv.setAttribute('class', 'a-center column-full hidden');
       data.view = 'cast';
       break;
     case 'people':
@@ -402,6 +404,7 @@ function viewSwap(viewname) {
       $searchPage.className = 'hidden';
       $castPage.className = 'hidden';
       $peoplePage.className = '';
+      $peopleSearchDiv.setAttribute('class', 'a-center column-full');
       data.view = 'people';
       break;
   }
