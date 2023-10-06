@@ -89,6 +89,7 @@ img {
 
 .card {
   background-color: rgb(39, 55, 77);
+  border-radius: 5px;
   margin: 0.25rem 0;
 }
 

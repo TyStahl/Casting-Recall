@@ -9,11 +9,13 @@ const $searchPage = document.querySelector("[data-view='search']");
 const $castPage = document.querySelector("[data-view='cast']");
 const $peoplePage = document.querySelector("[data-view='people']");
 
+// input submit for movie search
 $submit.addEventListener('submit', captureSearch);
 function captureSearch(event) {
   event.preventDefault();
   let term = '';
   $renderMovieList.textContent = '';
+  $renderCastList.textContent = '';
   term = replaceSpaces($searchTerm.value);
   const searchURL = movieURIComponent(term);
   movieByTitle(searchURL);
@@ -39,7 +41,7 @@ function renderMovies(renderData) {
   $movieListItem.appendChild($editBox);
 
   const $lookIcon = document.createElement('i');
-  $lookIcon.setAttribute('class', 'fa-solid fa-magnifying-glass w-t');
+  $lookIcon.setAttribute('class', 'fa-solid fa-magnifying-glass fa-2xl w-t');
   $lookIcon.setAttribute('id', 'look');
   $editBox.appendChild($lookIcon);
 
@@ -49,15 +51,21 @@ function renderMovies(renderData) {
   $movieTitleBox.appendChild($movieTitle);
 
   const $moviePoster = document.createElement('img');
-  $moviePoster.setAttribute(
-    'src',
-    `https://image.tmdb.org/t/p/original${renderData.posterUrl}`
-  );
+  if (renderData.posterUrl !== null) {
+    $moviePoster.setAttribute(
+      'src',
+    `https://image.tmdb.org/t/p/original${renderData.posterUrl}`);
+  } else {
+    $moviePoster.setAttribute(
+      'src',
+      'images/placeholder-image-2-3.png'
+    );
+  }
   $moviePoster.setAttribute('alt', 'poster');
   $moviePosterBox.appendChild($moviePoster);
   $renderMovieList.appendChild($movieListItem);
 }
-
+// click listener to show cast members of selected movie
 $renderMovieList.addEventListener('click', showCast);
 function showCast(event) {
   if (event.target.tagName === 'I') {
@@ -70,6 +78,7 @@ function showCast(event) {
   }
 }
 
+// render list items of cast members
 function renderCast(renderData) {
   const $castListItem = document.createElement('li');
   $castListItem.setAttribute('class', 'column-full column-half j-b no-wrap card');
@@ -89,7 +98,7 @@ function renderCast(renderData) {
   $castListItem.appendChild($castEditDiv);
 
   const $recycleIcon = document.createElement('i');
-  $recycleIcon.setAttribute('class', 'fa-solid fa-recycle w-t');
+  $recycleIcon.setAttribute('class', 'fa-solid fa-recycle fa-2xl w-t');
   $recycleIcon.setAttribute('id', 'recycle');
   $castEditDiv.appendChild($recycleIcon);
 
@@ -108,23 +117,27 @@ function renderCast(renderData) {
   $castTitleBox.appendChild($castName);
 
   const $castProfile = document.createElement('img');
-  $castProfile.setAttribute(
-    'src',
-    `https://image.tmdb.org/t/p/original${renderData.profileUrl}`
-  );
+
+  if (renderData.profileUrl !== null) {
+    $castProfile.setAttribute(
+      'src',
+      `https://image.tmdb.org/t/p/original${renderData.profileUrl}`
+    );
+  } else {
+    $castProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
+  }
   $castProfile.setAttribute('alt', 'poster');
   $castProfileBox.appendChild($castProfile);
 
   $renderCastList.appendChild($castListItem);
 }
-
+// generates URL with selected movie id interpolated to pull cast api data
 function castURIComponent(string) {
   const uri = 'https://lfz-cors.herokuapp.com/?url=';
   const targetURL =
     uri +
     `https://api.themoviedb.org/3/movie/${string}/credits?language=en-US`;
   return targetURL;
-
 }
 
 function castById(string) {
