@@ -238,27 +238,42 @@ function replacePeople(event) {
   if (event.target.tagName === 'A') {
     const $newCastMember = event.target.closest('li');
     const $newCastMemberId = $newCastMember.getAttribute('id');
-    const $oldCastMember = document.querySelector('#render-cast-list li:nth-child(1)');
+    const $oldCastMember = document.querySelector(
+      '#render-cast-list li:nth-child(1)'
+    );
     const $oldCastMemberId = $oldCastMember.getAttribute('id');
-    const oldCastMemberData = {};
-    let newCastMemberData = {};
-    for (let i = 0; i < data.people.length; i++) {
-      if (Number($newCastMemberId) === data.people[i].id) {
-        oldCastMemberData.id = data.people[i].id;
-        oldCastMemberData.name = data.people[i].name;
-        oldCastMemberData.profileUrl = data.people[i].profile_path;
-      }
-    }
-    newCastMemberData = oldCastMemberData;
+
+    // for (let n = 0; n < data.cast.length; n++) {
+    //   if (Number($oldCastMemberId) !== data.cast[n].id) {
+    //     renderCast(data.cast);
+    //   } else {
+    //     for (let i = 0; i < data.people.length; i++) {
+    //       if (Number($newCastMemberId) === data.people[i].id) {
+    //         data.cast[n].id = data.people[i].id;
+    //         data.cast[n].name = data.people[i].name;
+    //         data.cast[n].profileUrl = data.people[i].profile_path;
+    //       }
+    //     }
+    //     renderCast(data.cast);
+    //   }
+    // }
+
     for (let i = 0; i < data.cast.length; i++) {
       if (Number($oldCastMemberId) === data.cast[i].id) {
-        newCastMemberData.character = data.cast[i].character;
+        data.swap.character = data.cast[i].character;
+      }
+    }
+    for (let i = 0; i < data.people.length; i++) {
+      if (Number($newCastMemberId) === data.people[i].id) {
+        data.swap.id = data.people[i].id;
+        data.swap.name = data.people[i].name;
+        data.swap.profileUrl = data.people[i].profile_path;
       }
     }
 
     $renderCastList.textContent = '';
     $renderPeopleList.textContent = '';
-    renderCast(newCastMemberData);
+    renderCast(data.swap);
   }
 }
 
@@ -339,11 +354,6 @@ function renderPeople(renderData) {
   const $peopleTitleBox = document.createElement('div');
   $peopleTitleBox.setAttribute('class', 'a-center j-center wrap');
   $peopleInfoDiv.appendChild($peopleTitleBox);
-
-  // const $castCharacter = document.createElement('p');
-  // $castCharacter.setAttribute('class', 'w-t');
-  // $castCharacter.textContent = renderData.character;
-  // $peopleTitleBox.appendChild($castCharacter);
 
   const $peopleName = document.createElement('p');
   $peopleName.setAttribute('class', 'w-t');

@@ -3,5 +3,11 @@ const data = {
   view: 'landing',
   movies: [],
   cast: [],
-  people: []
+  people: [],
+  swap: {
+    id: 0,
+    name: '',
+    character: '',
+    profileUrl: ''
+  }
 };
