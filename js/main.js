@@ -220,17 +220,17 @@ function renderCast(renderData) {
 $renderCastList.addEventListener('click', showPeople);
 function showPeople(event) {
   if (data.view !== 'people' && event.target.tagName === 'I') {
-    const closestElement = event.target.closest('li');
-    const $actorToSwapId = closestElement.getAttribute('id');
-    const $castMembers = document.querySelectorAll('li');
-    for (let i = 0; i < $castMembers.length; i++) {
-      const $castmemberID = $castMembers[i].getAttribute('id');
-      if ($castmemberID !== $actorToSwapId) {
-        $renderCastList.removeChild($castMembers[i]);
-      }
-    }
+    // const closestElement = event.target.closest('li');
+    // const $actorToSwapId = closestElement.getAttribute('id');
+    // const $castMembers = document.querySelectorAll('li');
+    // for (let i = 0; i < $castMembers.length; i++) {
+    //   const $castmemberID = $castMembers[i].getAttribute('id');
+    //   if ($castmemberID !== $actorToSwapId) {
+    //     $renderCastList.removeChild($castMembers[i]);
+    //   }
+    // }
+    viewSwap('people');
   }
-  viewSwap('people');
 }
 
 $renderPeopleList.addEventListener('click', replacePeople);
