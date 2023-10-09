@@ -11,6 +11,7 @@ const $landingPage = document.querySelector("[data-view='landing']");
 const $searchPage = document.querySelector("[data-view='search']");
 const $castPage = document.querySelector("[data-view='cast']");
 const $peoplePage = document.querySelector("[data-view='people']");
+const $peopleSearchDiv = document.querySelector('#people-search-div');
 
 // input submit for movie search
 $submitMovie.addEventListener('submit', captureMovieSearch);
@@ -53,9 +54,9 @@ function movieByTitle(string) {
       const renderData = {
         id: data.movies[i].id,
         title: data.movies[i].original_title,
-        posterUrl: data.movies[i].poster_path
+        poster_path: data.movies[i].poster_path
       };
-      renderMovies(renderData);
+      $renderMovieList.appendChild(renderMovies(renderData));
     }
     viewSwap('search');
   });
@@ -92,10 +93,10 @@ function renderMovies(renderData) {
   $movieTitleBox.appendChild($movieTitle);
 
   const $moviePoster = document.createElement('img');
-  if (renderData.posterUrl !== null) {
+  if (renderData.poster_path !== null) {
     $moviePoster.setAttribute(
       'src',
-    `https://image.tmdb.org/t/p/original${renderData.posterUrl}`);
+    `https://image.tmdb.org/t/p/original${renderData.poster_path}`);
   } else {
     $moviePoster.setAttribute(
       'src',
@@ -104,7 +105,7 @@ function renderMovies(renderData) {
   }
   $moviePoster.setAttribute('alt', 'poster');
   $moviePosterBox.appendChild($moviePoster);
-  $renderMovieList.appendChild($movieListItem);
+  return $movieListItem;
 }
 
 // end of movie functions
@@ -149,9 +150,10 @@ function castById(string) {
         id: data.cast[i].id,
         name: data.cast[i].name,
         character: data.cast[i].character,
-        profileUrl: data.cast[i].profile_path
+        profile_path: data.cast[i].profile_path
       };
-      renderCast(renderData);
+      // renderCast(renderData);
+      $renderCastList.appendChild(renderCast(renderData));
     }
     viewSwap('cast');
   });
@@ -198,10 +200,10 @@ function renderCast(renderData) {
 
   const $castProfile = document.createElement('img');
 
-  if (renderData.profileUrl !== null) {
+  if (renderData.profile_path !== null) {
     $castProfile.setAttribute(
       'src',
-      `https://image.tmdb.org/t/p/original${renderData.profileUrl}`
+      `https://image.tmdb.org/t/p/original${renderData.profile_path}`
     );
   } else {
     $castProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
@@ -209,7 +211,7 @@ function renderCast(renderData) {
   $castProfile.setAttribute('alt', 'poster');
   $castProfileBox.appendChild($castProfile);
 
-  $renderCastList.appendChild($castListItem);
+  return $castListItem;
 }
 
 // end of cast functions
@@ -219,61 +221,31 @@ function renderCast(renderData) {
 // click listener to move to people search page to swap actors
 $renderCastList.addEventListener('click', showPeople);
 function showPeople(event) {
-  if (data.view !== 'people' && event.target.tagName === 'I') {
-    // const closestElement = event.target.closest('li');
-    // const $actorToSwapId = closestElement.getAttribute('id');
-    // const $castMembers = document.querySelectorAll('li');
-    // for (let i = 0; i < $castMembers.length; i++) {
-    //   const $castmemberID = $castMembers[i].getAttribute('id');
-    //   if ($castmemberID !== $actorToSwapId) {
-    //     $renderCastList.removeChild($castMembers[i]);
-    //   }
-    // }
+  if (data.view === 'cast' && event.target.tagName === 'I') {
+    data.swapOutLi = event.target.closest('li');
+    const swapId = event.target.closest('li').getAttribute('id');
+    for (let i = 0; i < data.cast.length; i++) {
+      if (data.cast[i].id === Number(swapId)) {
+        data.swapOut = data.cast[i];
+      }
+    }
+
     viewSwap('people');
   }
 }
 
 $renderPeopleList.addEventListener('click', replacePeople);
 function replacePeople(event) {
-  if (event.target.tagName === 'A') {
-    const $newCastMember = event.target.closest('li');
-    const $newCastMemberId = $newCastMember.getAttribute('id');
-    const $oldCastMember = document.querySelector(
-      '#render-cast-list li:nth-child(1)'
-    );
-    const $oldCastMemberId = $oldCastMember.getAttribute('id');
-
-    // for (let n = 0; n < data.cast.length; n++) {
-    //   if (Number($oldCastMemberId) !== data.cast[n].id) {
-    //     renderCast(data.cast);
-    //   } else {
-    //     for (let i = 0; i < data.people.length; i++) {
-    //       if (Number($newCastMemberId) === data.people[i].id) {
-    //         data.cast[n].id = data.people[i].id;
-    //         data.cast[n].name = data.people[i].name;
-    //         data.cast[n].profileUrl = data.people[i].profile_path;
-    //       }
-    //     }
-    //     renderCast(data.cast);
-    //   }
-    // }
-
-    for (let i = 0; i < data.cast.length; i++) {
-      if (Number($oldCastMemberId) === data.cast[i].id) {
-        data.swap.character = data.cast[i].character;
-      }
-    }
+  if (data.view === 'people' && event.target.tagName === 'A' && event.target.textContent === 'select') {
+    const swapId = event.target.closest('li').getAttribute('id');
     for (let i = 0; i < data.people.length; i++) {
-      if (Number($newCastMemberId) === data.people[i].id) {
-        data.swap.id = data.people[i].id;
-        data.swap.name = data.people[i].name;
-        data.swap.profileUrl = data.people[i].profile_path;
+      if (data.people[i].id === Number(swapId)) {
+        data.swapIn = data.people[i];
       }
     }
-
-    $renderCastList.textContent = '';
-    $renderPeopleList.textContent = '';
-    renderCast(data.swap);
+    data.swapIn.character = data.swapOut.character;
+    $renderCastList.replaceChild(renderCast(data.swapIn), data.swapOutLi);
+    viewSwap('cast');
   }
 }
 
@@ -304,11 +276,10 @@ function peopleByName(string) {
       const renderData = {
         id: data.people[i].id,
         name: data.people[i].name,
-        profileUrl: data.people[i].profile_path,
+        profile_path: data.people[i].profile_path,
         knownFor: data.people[i].known_for
       };
-      renderPeople(renderData);
-
+      $renderPeopleList.appendChild(renderPeople(renderData));
     }
     viewSwap('people');
   });
@@ -325,25 +296,25 @@ function peopleNameURIComponent(string) {
 
 // render list items of actors
 function renderPeople(renderData) {
-  const $peopleListITem = document.createElement('li');
-  $peopleListITem.setAttribute(
+  const $peopleListItem = document.createElement('li');
+  $peopleListItem.setAttribute(
     'class',
     'column-full column-half j-b no-wrap card'
   );
-  $peopleListITem.setAttribute('id', renderData.id);
-  $renderPeopleList.appendChild($peopleListITem);
+  $peopleListItem.setAttribute('id', renderData.id);
+  $renderPeopleList.appendChild($peopleListItem);
 
   const $peopleProfileBox = document.createElement('div');
   $peopleProfileBox.setAttribute('class', 'poster a-center');
-  $peopleListITem.appendChild($peopleProfileBox);
+  $peopleListItem.appendChild($peopleProfileBox);
 
   const $peopleInfoDiv = document.createElement('div');
   $peopleInfoDiv.setAttribute('class', 'wrap a-center');
-  $peopleListITem.appendChild($peopleInfoDiv);
+  $peopleListItem.appendChild($peopleInfoDiv);
 
   const $peopleEditDiv = document.createElement('div');
   $peopleEditDiv.setAttribute('class', 'a-center');
-  $peopleListITem.appendChild($peopleEditDiv);
+  $peopleListItem.appendChild($peopleEditDiv);
 
   const $selectIcon = document.createElement('a');
   $selectIcon.textContent = 'select';
@@ -362,23 +333,22 @@ function renderPeople(renderData) {
 
   const $peopleProfile = document.createElement('img');
 
-  if (renderData.profileUrl !== null) {
+  if (renderData.profile_path !== null) {
     $peopleProfile.setAttribute(
       'src',
-      `https://image.tmdb.org/t/p/original${renderData.profileUrl}`
+      `https://image.tmdb.org/t/p/original${renderData.profile_path}`
     );
   } else {
     $peopleProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
-    $peopleListITem.className = 'hidden';
+    $peopleListItem.className = 'hidden';
   }
   $peopleProfile.setAttribute('alt', 'poster');
   $peopleProfileBox.appendChild($peopleProfile);
 
-  $renderPeopleList.appendChild($peopleListITem);
+  return $peopleListItem;
 }
 
 // end of people functions
-const $peopleSearchDiv = document.querySelector('#people-search-div');
 // viewSwap function
 function viewSwap(viewname) {
   switch (viewname) {

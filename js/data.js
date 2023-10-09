@@ -4,10 +4,7 @@ const data = {
   movies: [],
   cast: [],
   people: [],
-  swap: {
-    id: 0,
-    name: '',
-    character: '',
-    profileUrl: ''
-  }
+  swapOutLi: {},
+  swapIn: {},
+  swapOut: {}
 };
