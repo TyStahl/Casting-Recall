@@ -1,5 +1,5 @@
 /* global data */
-
+const $actorToReplace = document.querySelector('#actor-to-replace');
 const $submitMovie = document.querySelector('#film-search');
 const $submitPeople = document.querySelector('#people-search');
 const $movieSearchInput = document.querySelector('#film-search-input');
@@ -229,7 +229,7 @@ function showPeople(event) {
         data.swapOut = data.cast[i];
       }
     }
-
+    $actorToReplace.textContent = `replace ${data.swapOut.name} with: `;
     viewSwap('people');
   }
 }
