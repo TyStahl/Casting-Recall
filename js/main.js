@@ -161,7 +161,6 @@ function castById(string) {
         character: data.cast[i].character,
         profile_path: data.cast[i].profile_path
       };
-      // renderCast(renderData);
       $renderCastList.appendChild(renderCast(renderData));
     }
     viewSwap('cast');
@@ -238,7 +237,7 @@ $renderCastList.addEventListener('click', showPeople);
 function showPeople(event) {
   if (data.view === 'cast' && event.target.tagName === 'I') {
     data.swapOutLi = event.target.closest('li');
-    const swapId = event.target.closest('li').getAttribute('id');
+    const swapId = data.swapOutLi.getAttribute('id');
     for (let i = 0; i < data.cast.length; i++) {
       if (data.cast[i].id === Number(swapId)) {
         data.swapOut = data.cast[i];
