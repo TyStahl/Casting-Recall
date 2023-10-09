@@ -12,6 +12,8 @@ const $searchPage = document.querySelector("[data-view='search']");
 const $castPage = document.querySelector("[data-view='cast']");
 const $peoplePage = document.querySelector("[data-view='people']");
 const $peopleSearchDiv = document.querySelector('#people-search-div');
+const $backFromCast = document.querySelector('#cast-go-b');
+const $backFromPeople = document.querySelector('#people-go-b');
 
 // input submit for movie search
 $submitMovie.addEventListener('submit', captureMovieSearch);
@@ -112,6 +114,13 @@ function renderMovies(renderData) {
 // start of cast functions
 
 // click listener to show cast members of selected movie
+$backFromCast.addEventListener('click', castGoBack);
+function castGoBack(event) {
+  if (event.target.tagName === 'A' && data.view === 'cast') {
+    viewSwap('search');
+  }
+}
+
 $renderMovieList.addEventListener('click', showCast);
 function showCast(event) {
   if (event.target.tagName === 'I') {
@@ -217,6 +226,12 @@ function renderCast(renderData) {
 // end of cast functions
 
 // start of people functions
+$backFromPeople.addEventListener('click', peopleGoBack);
+function peopleGoBack(event) {
+  if (event.target.tagName === 'A' && data.view === 'people' && event.target.textContent === 'go back') {
+    viewSwap('cast');
+  }
+}
 
 // click listener to move to people search page to swap actors
 $renderCastList.addEventListener('click', showPeople);
@@ -241,6 +256,7 @@ function replacePeople(event) {
     for (let i = 0; i < data.people.length; i++) {
       if (data.people[i].id === Number(swapId)) {
         data.swapIn = data.people[i];
+
       }
     }
     data.swapIn.character = data.swapOut.character;
@@ -366,7 +382,7 @@ function viewSwap(viewname) {
       $searchPage.className = '';
       $castPage.className = 'hidden';
       $peoplePage.className = 'hidden';
-      $movieSearchInput.removeAttribute('disabled');
+      $movieSearchInput.removeAttribute('disabled', 'false');
       $peopleSearchDiv.setAttribute('class', 'a-center column-full hidden');
       data.view = 'search';
       break;
