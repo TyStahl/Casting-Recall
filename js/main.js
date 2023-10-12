@@ -237,10 +237,21 @@ $renderCastList.addEventListener('click', showPeople);
 function showPeople(event) {
   if (data.view === 'cast' && event.target.tagName === 'I') {
     data.swapOutLi = event.target.closest('li');
-    const swapId = data.swapOutLi.getAttribute('id');
+    const cTitle = data.swapOutLi.children[1].children[0].children[0].textContent;
+    // console.dir(data.swapOutLi);
+    // const swapId = data.swapOutLi.getAttribute('id');
     for (let i = 0; i < data.cast.length; i++) {
-      if (data.cast[i].id === Number(swapId)) {
-        data.swapOut = data.cast[i];
+      if (data.cast[i].character === cTitle) {
+        const { name, profile_path, character } = data.cast[i];
+        const newObj = {
+          name,
+          profile_path,
+          character
+        };
+        data.swapOut = newObj;
+        break;
+        // data.swapOut = data.cast[i];
+        // break;
       }
     }
     $actorToReplace.textContent = `replace ${data.swapOut.name} with: `;
@@ -254,12 +265,37 @@ function replacePeople(event) {
     const swapId = event.target.closest('li').getAttribute('id');
     for (let i = 0; i < data.people.length; i++) {
       if (data.people[i].id === Number(swapId)) {
-        data.swapIn = data.people[i];
-
+        const { name, profile_path, id } = data.people[i];
+        const newObj = {
+          name,
+          profile_path,
+          id
+        };
+        data.swapIn = newObj;
       }
     }
-    data.swapIn.character = data.swapOut.character;
-    $renderCastList.replaceChild(renderCast(data.swapIn), data.swapOutLi);
+    const swapOutChar = data.swapOut.character;
+    data.swapIn.character = swapOutChar;
+    for (let i = 0; i < data.cast.length; i++) {
+      if (data.cast[i].character === data.swapIn.character) {
+        const { name, profile_path, character, id } = data.swapIn;
+        const newObj = {
+          name,
+          profile_path,
+          character,
+          id
+        };
+        data.cast[i] = newObj;
+        break;
+
+        // data.cast[i] = data.swapIn;
+        // break;
+      }
+    }
+    // data.swapIn.character = data.swapOut.character;
+    const swapInLi = renderCast(data.swapIn);
+    $renderCastList.replaceChild(swapInLi, data.swapOutLi);
+    // data.swapOutLi = swapInLi;
     viewSwap('cast');
   }
 }
