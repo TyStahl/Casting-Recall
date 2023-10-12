@@ -53,10 +53,11 @@ function movieByTitle(string) {
     const response = xhr.response;
     data.movies = response.results;
     for (let i = 0; i < data.movies.length; i++) {
+      const { id, original_title: title, poster_path: posterPath } = data.movies[i];
       const renderData = {
-        id: data.movies[i].id,
-        title: data.movies[i].original_title,
-        poster_path: data.movies[i].poster_path
+        id,
+        title,
+        posterPath
       };
       $renderMovieList.appendChild(renderMovies(renderData));
     }
@@ -98,7 +99,7 @@ function renderMovies(renderData) {
   if (renderData.poster_path !== null) {
     $moviePoster.setAttribute(
       'src',
-    `https://image.tmdb.org/t/p/original${renderData.poster_path}`);
+    `https://image.tmdb.org/t/p/original${renderData.posterPath}`);
   } else {
     $moviePoster.setAttribute(
       'src',
@@ -155,11 +156,12 @@ function castById(string) {
     const response = xhr.response;
     data.cast = response.cast;
     for (let i = 0; i < data.cast.length; i++) {
+      const { id, name, character, profile_path: profilePath } = data.cast[i];
       const renderData = {
-        id: data.cast[i].id,
-        name: data.cast[i].name,
-        character: data.cast[i].character,
-        profile_path: data.cast[i].profile_path
+        id,
+        name,
+        character,
+        profilePath
       };
       $renderCastList.appendChild(renderCast(renderData));
     }
@@ -211,7 +213,7 @@ function renderCast(renderData) {
   if (renderData.profile_path !== null) {
     $castProfile.setAttribute(
       'src',
-      `https://image.tmdb.org/t/p/original${renderData.profile_path}`
+      `https://image.tmdb.org/t/p/original${renderData.profilePath}`
     );
   } else {
     $castProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
@@ -238,20 +240,16 @@ function showPeople(event) {
   if (data.view === 'cast' && event.target.tagName === 'I') {
     data.swapOutLi = event.target.closest('li');
     const cTitle = data.swapOutLi.children[1].children[0].children[0].textContent;
-    // console.dir(data.swapOutLi);
-    // const swapId = data.swapOutLi.getAttribute('id');
     for (let i = 0; i < data.cast.length; i++) {
       if (data.cast[i].character === cTitle) {
-        const { name, profile_path, character } = data.cast[i];
+        const { name, profile_path: profilePath, character } = data.cast[i];
         const newObj = {
           name,
-          profile_path,
+          profilePath,
           character
         };
         data.swapOut = newObj;
         break;
-        // data.swapOut = data.cast[i];
-        // break;
       }
     }
     $actorToReplace.textContent = `replace ${data.swapOut.name} with: `;
@@ -265,37 +263,33 @@ function replacePeople(event) {
     const swapId = event.target.closest('li').getAttribute('id');
     for (let i = 0; i < data.people.length; i++) {
       if (data.people[i].id === Number(swapId)) {
-        const { name, profile_path, id } = data.people[i];
+        const { name, profile_path: profilePath, id } = data.people[i];
         const newObj = {
           name,
-          profile_path,
+          profilePath,
           id
         };
         data.swapIn = newObj;
+        break;
       }
     }
     const swapOutChar = data.swapOut.character;
     data.swapIn.character = swapOutChar;
     for (let i = 0; i < data.cast.length; i++) {
       if (data.cast[i].character === data.swapIn.character) {
-        const { name, profile_path, character, id } = data.swapIn;
+        const { name, profile_path: profilePath, character, id } = data.swapIn;
         const newObj = {
           name,
-          profile_path,
+          profilePath,
           character,
           id
         };
         data.cast[i] = newObj;
         break;
-
-        // data.cast[i] = data.swapIn;
-        // break;
       }
     }
-    // data.swapIn.character = data.swapOut.character;
     const swapInLi = renderCast(data.swapIn);
     $renderCastList.replaceChild(swapInLi, data.swapOutLi);
-    // data.swapOutLi = swapInLi;
     viewSwap('cast');
   }
 }
@@ -324,11 +318,12 @@ function peopleByName(string) {
     const response = xhr.response;
     data.people = response.results;
     for (let i = 0; i < data.people.length; i++) {
+      const { id, name, known_for: knownFor, profile_path: profilePath } = data.people[i];
       const renderData = {
-        id: data.people[i].id,
-        name: data.people[i].name,
-        profile_path: data.people[i].profile_path,
-        knownFor: data.people[i].known_for
+        id,
+        name,
+        profilePath,
+        knownFor
       };
       $renderPeopleList.appendChild(renderPeople(renderData));
     }
@@ -387,7 +382,7 @@ function renderPeople(renderData) {
   if (renderData.profile_path !== null) {
     $peopleProfile.setAttribute(
       'src',
-      `https://image.tmdb.org/t/p/original${renderData.profile_path}`
+      `https://image.tmdb.org/t/p/original${renderData.profilePath}`
     );
   } else {
     $peopleProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
