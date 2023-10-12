@@ -106,7 +106,7 @@ function renderMovies(renderData) {
       'images/placeholder-image-2-3.png'
     );
   }
-  $moviePoster.setAttribute('alt', 'poster');
+  $moviePoster.setAttribute('alt', renderData.title);
   $moviePosterBox.appendChild($moviePoster);
   return $movieListItem;
 }
@@ -218,7 +218,7 @@ function renderCast(renderData) {
   } else {
     $castProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
   }
-  $castProfile.setAttribute('alt', 'poster');
+  $castProfile.setAttribute('alt', renderData.name);
   $castProfileBox.appendChild($castProfile);
 
   return $castListItem;
@@ -388,7 +388,7 @@ function renderPeople(renderData) {
     $peopleProfile.setAttribute('src', 'images/placeholder-image-2-3.png');
     $peopleListItem.className = 'hidden';
   }
-  $peopleProfile.setAttribute('alt', 'poster');
+  $peopleProfile.setAttribute('alt', renderData.name);
   $peopleProfileBox.appendChild($peopleProfile);
 
   return $peopleListItem;
