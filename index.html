@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
   <header class="header">
@@ -23,12 +24,52 @@
         </form>
       </div>
     </div>
-    <div class="row j-center">
-      <h5>Search for a film to recast the characters!</h5>
+    <div data-view="landing" class="">
+      <div class="row j-center">
+        <div>
+          <h5>Search for a film to recast the characters!</h5>
+        </div>
+      </div>
     </div>
-    <div>
-      <ul class="ul column-full" id="render-list">
-      </ul>
+    <div data-view="search" class="hidden">
+      <div class="row j-center">
+        <h5>Search for a film to recast the characters!</h5>
+      </div>
+      <div>
+        <ul class="ul column-full" id="render-movie-list"></ul>
+      </div>
+    </div>
+    <div data-view="cast" class="hidden">
+      <div class="row wrap j-b">
+        <div>
+          <h5>Cast:</h5>
+        </div>
+        <div class="nav a-center">
+          <a class="w-t hidden">save cast</a>
+          <a id="cast-go-b" class="">go back</a>
+        </div>
+      </div>
+      <div>
+        <ul class="ul column-full" id="render-cast-list"></ul>
+      </div>
+    </div>
+    <div data-view="people" class="hidden">
+      <div class="row j-center j-b">
+        <div>
+          <h5 id="actor-to-replace">Replace actor to replace with:</h5>
+        </div>
+        <div class="a-center">
+          <a id="people-go-b" class="">go back</a>
+        </div>
+      </div>
+      <div id="people-search-div" data-view="people" class="a-center column-full hidden">
+        <form id="people-search" class="row">
+          <input class="input" id="people-search-input" type="text" placeholder="Search for an actor to swap" required>
+        </form>
+      </div>
+      <div>
+        <ul class="ul column-full" id="render-people-list"></ul>
+      </div>
     </div>
   </main>
   <script src="js/data.js"></script>

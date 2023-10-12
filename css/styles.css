@@ -3,9 +3,15 @@ h1 {
   margin-right: 2rem;
 }
 
+p {
+  text-align: left;
+  width: 100%;
+}
+
 h5 {
   color: white;
-  text-align: center;
+  text-align: left;
+  width: 100%;
 }
 
 body {
@@ -16,6 +22,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
+}
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .no-wrap {
@@ -31,7 +42,7 @@ img {
   width: 100%;
 }
 
-.title {
+.w-t {
   color: white;
 }
 
@@ -46,7 +57,6 @@ img {
 
 .a-center {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -62,6 +72,10 @@ img {
   justify-content: flex-start;
 }
 
+.j-b {
+  justify-content: space-between;
+}
+
 .container {
   min-height: 100vh;
   width: 100%;
@@ -70,9 +84,15 @@ img {
 
 .row {
   width: 100%;
+  flex-direction: row;
 }
 
 .card {
   background-color: rgb(39, 55, 77);
+  border-radius: 5px;
   margin: 0.25rem 0;
+}
+
+.nav {
+  gap: 0.5rem;
 }
