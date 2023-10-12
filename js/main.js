@@ -96,7 +96,7 @@ function renderMovies(renderData) {
   $movieTitleBox.appendChild($movieTitle);
 
   const $moviePoster = document.createElement('img');
-  if (renderData.poster_path !== null) {
+  if (renderData.posterPath !== null) {
     $moviePoster.setAttribute(
       'src',
     `https://image.tmdb.org/t/p/original${renderData.posterPath}`);
@@ -210,7 +210,7 @@ function renderCast(renderData) {
 
   const $castProfile = document.createElement('img');
 
-  if (renderData.profile_path !== null) {
+  if (renderData.profilePath !== null) {
     $castProfile.setAttribute(
       'src',
       `https://image.tmdb.org/t/p/original${renderData.profilePath}`
@@ -379,7 +379,7 @@ function renderPeople(renderData) {
 
   const $peopleProfile = document.createElement('img');
 
-  if (renderData.profile_path !== null) {
+  if (renderData.profilePath !== null) {
     $peopleProfile.setAttribute(
       'src',
       `https://image.tmdb.org/t/p/original${renderData.profilePath}`
